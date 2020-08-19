@@ -1,0 +1,18 @@
+<h1>Diff Check</h1>
+<div class="wrapper">
+  <div>
+    <h2>input text</h2>
+    <form class="diff-form">
+      <mat-form-field class="full-width" appearance="fill">
+        <textarea matInput [(ngModel)]="input" name="input"></textarea>
+      </mat-form-field>
+    </form>
+    <button mat-raised-button (click)="onSubmit()">check</button>
+  </div>
+  <div>
+    <h2>diff result</h2>
+    <div class="result">
+      <pre>{{diff}}</pre>
+    </div>
+  </div>
+</div>

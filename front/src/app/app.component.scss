@@ -1,0 +1,13 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .full-width {
+    width: 90%;
+  }
+  .result {
+    min-height: 300px;
+    width: 90%;
+    border: 1px solid gray;
+  }
+}

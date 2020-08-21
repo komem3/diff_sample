@@ -9,7 +9,7 @@ import { Message } from './model';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  input: Message;
+  input: Message = { message: '', id: '' };
   diff: Message;
 
   constructor(private diffService: DiffService) {}

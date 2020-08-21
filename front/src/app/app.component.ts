@@ -9,22 +9,15 @@ import { Message } from './model';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  input: Message = { message: '', id: '', diff: '' };
-  diff: string;
+  input: Message = { message: '', id: '' };
+  diff: Message;
 
   constructor(private diffService: DiffService) {}
 
-  submit() {
-    if (this.input.id) {
-      this.diffService.UpdateMessage(this.input).subscribe((r) => {
-        this.input.id = r.id;
-        this.diff = decodeURI(r.diff);
-      });
-    } else {
-      this.diffService.CreateMessage(this.input).subscribe((r) => {
-        this.input.id = r.id;
-        this.diff = r.message;
-      });
-    }
+  create() {
+    this.diffService.CreateMessage(this.input).subscribe((r) => {
+      this.input.id = r.id;
+      this.diff = r;
+    });
   }
 }

@@ -27,7 +27,6 @@ func main() {
 
 	r.Route("/api", func(r chi.Router) {
 		r.Post("/create", CreateHandler)
-		r.Put("/update", UpdateHandler)
 	})
 
 	// Create a route along /files that will serve contents from

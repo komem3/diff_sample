@@ -11,4 +11,8 @@ export class DiffService {
   CreateMessage(message: Message) {
     return this.http.post<Message>('/api/create', message);
   }
+
+  UpdateMessage(message: Message) {
+    return this.http.put<Message>('/api/update', message);
+  }
 }

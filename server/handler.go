@@ -9,11 +9,13 @@ import (
 	"cloud.google.com/go/datastore"
 	"github.com/go-chi/chi"
 	"github.com/rs/xid"
+	"github.com/sergi/go-diff/diffmatchpatch"
 )
 
 type Message struct {
 	ID      string `json:"id"`
 	Message string `json:"message"`
+	Diff    string `json:"diff"`
 }
 
 type Error struct {
@@ -32,6 +34,41 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
 	if _, err := dsClient.Mutate(ctx,
 		datastore.NewInsert(datastore.NameKey("Message", m.ID, nil), &m),
 	); err != nil {
+		ErrorResp(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(&m); err != nil {
+		ErrorResp(w, http.StatusInternalServerError, err)
+		return
+	}
+}
+
+func UpdateHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	var m Message
+	if err := json.NewDecoder(r.Body).Decode(&m); err != nil {
+		ErrorResp(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if _, err := dsClient.RunInTransaction(ctx, func(tx *datastore.Transaction) error {
+		old := Message{ID: m.ID}
+		key := datastore.NameKey("Message", old.ID, nil)
+		if err := tx.Get(key, &old); err != nil {
+			return err
+		}
+
+		dmp := diffmatchpatch.New()
+		diffs := dmp.PatchMake(old.Message, m.Message)
+
+		m.Diff = dmp.PatchToText(diffs)
+
+		if _, err := tx.Mutate(datastore.NewUpdate(key, &m)); err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
 		ErrorResp(w, http.StatusInternalServerError, err)
 		return
 	}

@@ -7,12 +7,12 @@
         <textarea matInput [(ngModel)]="input.message" name="input"></textarea>
       </mat-form-field>
     </form>
-    <button mat-raised-button (click)="create()">check</button>
+    <button mat-raised-button (click)="submit()">check</button>
   </div>
   <div>
     <h2>diff result</h2>
     <div class="result">
-      <pre>{{diff?.message}}</pre>
+      <pre>{{diff}}</pre>
     </div>
   </div>
 </div>

@@ -12,6 +12,10 @@ import (
 )
 
 type Message struct {
+	Message string `json:"message"`
+}
+
+type MessageResp struct {
 	ID      string `json:"id"`
 	Message string `json:"message"`
 }
@@ -27,16 +31,16 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorResp(w, http.StatusInternalServerError, err)
 		return
 	}
-	m.ID = xid.New().String()
+	id := xid.New().String()
 
 	if _, err := dsClient.Mutate(ctx,
-		datastore.NewInsert(datastore.NameKey("Message", m.ID, nil), &m),
+		datastore.NewInsert(datastore.NameKey("Message", id, nil), &m),
 	); err != nil {
 		ErrorResp(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(&m); err != nil {
+	if err := json.NewEncoder(w).Encode(&MessageResp{ID: id, Message: m.Message}); err != nil {
 		ErrorResp(w, http.StatusInternalServerError, err)
 		return
 	}

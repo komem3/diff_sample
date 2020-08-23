@@ -25,8 +25,8 @@ func main() {
 
 	r := chi.NewRouter()
 
-	r.Route("/api", func(r chi.Router) {
-		r.Post("/create", CreateHandler)
+	r.Route("/api/message", func(r chi.Router) {
+		r.Post("/", CreateHandler)
 	})
 
 	// Create a route along /files that will serve contents from

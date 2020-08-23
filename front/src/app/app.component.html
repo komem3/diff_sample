@@ -4,15 +4,15 @@
     <h2>input text</h2>
     <form class="diff-form">
       <mat-form-field class="full-width" appearance="fill">
-        <textarea matInput [(ngModel)]="input.message" name="input"></textarea>
+        <textarea matInput [(ngModel)]="input" name="input"></textarea>
       </mat-form-field>
     </form>
-    <button mat-raised-button (click)="create()">check</button>
+    <button mat-raised-button (click)="onClickCheck()">check</button>
   </div>
   <div>
     <h2>diff result</h2>
     <div class="result">
-      <pre>{{diff?.message}}</pre>
+      <pre>{{diff}}</pre>
     </div>
   </div>
 </div>

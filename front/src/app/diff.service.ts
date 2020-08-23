@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Message } from './model';
+import { MessageReq, MessageResp } from './model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class DiffService {
   constructor(private http: HttpClient) {}
 
-  CreateMessage(message: Message) {
-    return this.http.post<Message>('/api/create', message);
+  CreateMessage(message: MessageReq) {
+    return this.http.post<MessageResp>('/api/message', message);
   }
 }

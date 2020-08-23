@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DiffService } from './diff.service';
 import { Observable } from 'rxjs';
-import { Message } from './model';
+import { MessageReq } from './model';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +9,16 @@ import { Message } from './model';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  input: Message = { message: '', id: '' };
-  diff: Message;
+  input: string = '';
+  id: string = '';
+  diff: string = '';
 
   constructor(private diffService: DiffService) {}
 
-  create() {
-    this.diffService.CreateMessage(this.input).subscribe((r) => {
-      this.input.id = r.id;
-      this.diff = r;
+  onClickCheck() {
+    this.diffService.CreateMessage({ message: this.input }).subscribe((r) => {
+      this.diff = r.message;
+      this.id = r.id;
     });
   }
 }

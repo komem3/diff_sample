@@ -16,18 +16,9 @@ export class AppComponent {
   constructor(private diffService: DiffService) {}
 
   onClickCheck() {
-    if (this.id === '') {
-      this.diffService.CreateMessage({ message: this.input }).subscribe((r) => {
-        this.diff = r.message;
-        this.id = r.id;
-      });
-    } else {
-      this.diffService
-        .UpdateMessage(this.id, { message: this.input })
-        .subscribe((r) => {
-          this.diff = r.message;
-          this.id = r.id;
-        });
-    }
+    this.diffService.CreateMessage({ message: this.input }).subscribe((r) => {
+      this.diff = r.message;
+      this.id = r.id;
+    });
   }
 }
